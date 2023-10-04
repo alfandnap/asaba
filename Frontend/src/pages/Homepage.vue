@@ -21,7 +21,6 @@ export default {
       try {
         const data = await this.fetchproduk()
 
-        console.log(this.productDataState);
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +32,6 @@ export default {
   },
   computed: {
     ...mapWritableState(useCounterStore, ['productDataState'])
-
   },
   created() {
     this.getAllProduct()

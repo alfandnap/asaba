@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios';
 
@@ -8,8 +7,6 @@ export const useCounterStore = defineStore('counter', {
       productDataState: []
     }
   },
-  // could also be defined as
-  // state: () => ({ count: 0 })
   actions: {
     async fetchproduk() {
       try {
@@ -17,33 +14,8 @@ export const useCounterStore = defineStore('counter', {
           url: 'http://localhost:8080/products',
           method: 'GET',
         })
-        
+
         this.productDataState = data.products
-
-        return data
-        // this.products = data
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async fetchcategory() {
-      try {
-        const { data } = await axios({
-          url: 'http://localhost:3000/categories',
-          method: 'get',
-        })
-
-        return data
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async fetchstatus() {
-      try {
-        const { data } = await axios({
-          url: 'http://localhost:3000/statuses',
-          method: 'get',
-        })
 
         return data
         // this.products = data
@@ -54,7 +26,7 @@ export const useCounterStore = defineStore('counter', {
     async postProduk(formData) {
       try {
         const { data } = await axios({
-          url: 'http://localhost:3000/produks',
+          url: 'http://localhost:8080/products',
           method: 'post',
           data: formData
         })
@@ -67,7 +39,7 @@ export const useCounterStore = defineStore('counter', {
     async fetchProdukById(id) {
       try {
         const { data } = await axios({
-          url: `http://localhost:3000/produks/${id}`,
+          url: `http://localhost:8080/products/${id}`,
           method: 'get',
         })
 
@@ -80,7 +52,7 @@ export const useCounterStore = defineStore('counter', {
     async editProduk(value) {
       try {
         const { data } = await axios({
-          url: `http://localhost:3000/produks/${value.id}`,
+          url: `http://localhost:8080/products/${value.ID}`,
           method: 'put',
           data: value
         })
@@ -94,11 +66,11 @@ export const useCounterStore = defineStore('counter', {
     async deleteProduk(value) {
       try {
         const { data } = await axios({
-          url: `http://localhost:3000/produks/${value.id}`,
+          url: `http://localhost:8080/products/${value.ID}`,
           method: 'delete',
         })
 
-        this.productDataState = this.productDataState.filter(item => item.id !== value.id);
+        this.productDataState = this.productDataState.filter(item => item.ID !== value.ID);
 
         return data
       } catch (error) {

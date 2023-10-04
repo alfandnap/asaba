@@ -1,6 +1,5 @@
 import { createApp, markRaw } from 'vue'
 import { createPinia } from 'pinia'
-// import './style.css'
 import "bootstrap"
 import 'bootstrap/dist/css/bootstrap.css'
 import App from './App.vue'

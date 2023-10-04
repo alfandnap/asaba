@@ -1,5 +1,5 @@
 <script>
-import { mapWritableState, mapActions } from 'pinia'
+import { mapActions } from 'pinia'
 import { useCounterStore } from '../stores/counter'
 
 export default {
@@ -8,36 +8,14 @@ export default {
     ...mapActions(useCounterStore, ['deleteProduk']),
     editHandler(e) {
       e.preventDefault();
-      this.$router.push(`/edit/${this.product.id}`)
+      this.$router.push(`/edit/${this.product.ID}`)
     },
-    async deleteHandler(e) {
+    async deleteHandler() {
       try {
-        e.preventDefault()
 
-        this.$swal.fire({
-          title: 'Do you want to delete?',
-          // showDenyButton: true,
-          showCancelButton: true,
-          confirmButtonText: 'delete',
-          denyButtonText: `Don't save`,
-        }).then(async (result) => {
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
+        const data = await this.deleteProduk(this.product)
 
-
-            const data = await this.deleteProduk(this.product)
-
-            if (data?.message == `${this.product.nama_produk} success to delete`) {
-              await this.$router.push(`/`)
-            }
-
-            await this.$swal.fire('Deleted!', '', 'success')
-
-          } else if (result.isDenied) {
-            this.$swal.fire('Changes are not saved', '', 'info')
-          }
-        })
-
+        await this.$router.push(`/`)
 
       } catch (error) {
         console.log(error);
@@ -53,7 +31,7 @@ export default {
     <td>{{ product.Nama }}</td>
     <td>{{product.Jumlah}}</td>
     <td>{{product.Deskripsi}}</td>
-    <td>{{product.Status}}</td>
+    <td>{{ product.Status ? "masuk": "keluar"}}</td>
     <td>
       <div class="icon-container">
         <button @click="editHandler" type="button" class="btn btn-light">
@@ -70,7 +48,7 @@ export default {
 <style>
 .icon-container {
   display: flex;
-  /* justify-content: space-between; */
+  /* justify-content: space-around; */
 }
 
 .bi {

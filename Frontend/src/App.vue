@@ -1,8 +1,13 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 
 export default {
+  data() {
+    return {
+      showButton: true
+    }
+  },
   components: {
     HelloWorld
   },
@@ -12,13 +17,18 @@ export default {
       this.$router.push(`/`)
     }
   },
+  watch: {
+    '$route.fullPath': function (newPath, oldPath) {
+      this.showButton = newPath === '/';
+    }
+  },
 }
 </script>
 
 <template>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Asaba</a>
+      <a @click="goToHomepage" class="navbar-brand" href="#">Asaba</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,17 +36,15 @@ export default {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Update Stock</a>
+            <a @click="goToHomepage" class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
   <div class="router-container">
-    <button @click="" type="button" class="btn btn-light" style="margin-right: 10%; important:  !important;">
+    <button v-if="showButton" @click="$router.push('/form')" type="button" class="btn btn-secondary ml-auto"
+      style="margin-right: 10%; important:  !important;">
       <i class="bi bi-plus-square" style="width: max-content;"></i>
     </button>
     <RouterView />
@@ -45,6 +53,6 @@ export default {
 
 <style>
 .router-container {
-  margin: 25px;
+  margin: 2% 5% 1% 5%;
 }
 </style>
